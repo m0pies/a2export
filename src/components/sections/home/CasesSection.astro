@@ -1,0 +1,49 @@
+---
+import Section from "../../ui/Section.astro";
+import Container from "../../ui/Container.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+
+const cases = [
+  {
+    title: "Поставка оборудования из Европы",
+    description: "Выстроили маршрут через Казахстан, проверили документы и довели груз до склада в России.",
+    size: "large",
+  },
+  {
+    title: "Экспорт продукции в Узбекистан",
+    description: "Оформили пакет документов, получили СТ-1 и организовали доставку до получателя.",
+    size: "small",
+  },
+  {
+    title: "ВЭД под ключ для производителя",
+    description: "Взяли на себя контракт, расчёты, таможенное оформление и координацию логистики.",
+    size: "small",
+  },
+];
+---
+
+<Section id="cases">
+  <Container>
+    <SectionHeader heading="h2">
+      <Fragment slot="title">
+        Реальные задачи. <strong class="text-accent font-semibold">Продуманные решения.</strong>
+      </Fragment>  
+    </SectionHeader>
+
+    <div class="mt-8 grid gap-4 md:mt-12 lg:grid-cols-2 lg:grid-rows-2 lg:gap-6">
+      {cases.map((caseItem) => (
+        <article
+          class:list={[
+            "flex min-h-44 flex-col rounded-xl p-6 bg-surface-card border border-border",
+            caseItem.size === "large" && "lg:row-span-2 lg:min-h-44",
+          ]}
+        >
+          <div class="flex flex-col">
+            <h3 class="text-ui-lg">{caseItem.title}</h3>
+            <p class="mt-2 block text-body text-text-secondary text-balance">{caseItem.description}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </Container>
+</Section>

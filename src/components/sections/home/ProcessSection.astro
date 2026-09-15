@@ -1,0 +1,63 @@
+---
+import Section from "../../ui/Section.astro";
+import Container from "../../ui/Container.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+
+const steps = [
+  {
+    number: "1",
+    title: "Разбираем задачу",
+    description: "Вы присылаете описание товара, страну, объем и желаемые сроки доставки.",
+    image: "/images/zadacha.webp",
+  },
+  {
+    number: "2",
+    title: "Предлагаем схему",
+    description: "Проверяем документы, риски и разрешения, подбираем маршрут и формат работы.",
+    image: "/images/shema.webp",
+  },
+  {
+    number: "3",
+    title: "Фиксируем условия",
+    description: "Согласуем состав работ, стоимость и сроки, затем заключаем договор.",
+    image: "/images/usloviya.webp",
+  },
+  {
+    number: "4",
+    title: "Ведём поставку",
+    description: "Готовим документы, контролируем оформление и перевозку до конца сделки.",
+    image: "/images/postavka.webp",
+  },
+];
+---
+
+<Section id="process" border="sides">
+  <Container>
+    <SectionHeader heading="h2">
+      <Fragment slot="title">
+        <strong class="text-accent font-semibold">Понятный процесс</strong> от начала и до самого конца.
+      </Fragment>
+    </SectionHeader>
+
+    <ol class="relative mt-8 flex flex-col gap-6 md:mt-12 lg:grid lg:grid-cols-4 lg:gap-5">
+      <span
+        class="absolute bottom-4 left-4 top-4 border-l border-dashed border-border lg:bottom-auto lg:right-[23%] lg:top-4 lg:border-l-0 lg:border-t"
+        aria-hidden="true"
+      ></span>
+
+      {steps.map((step) => (
+        <li class="relative z-10 flex items-start gap-4 lg:flex-col lg:gap-4">
+          <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-accent text-body-sm  text-white">
+            {step.number}
+          </div>
+
+          <article class="flex h-fit min-h-48 flex-1 flex-col rounded-xl border border-border bg-surface-card p-6 lg:w-full lg:flex-none">
+            <h3 class="text-ui-lg">{step.title}</h3>
+            <p class="mt-2 block text-body text-text-secondary text-balance">{step.description}</p>
+            <img src={step.image} alt="" class="mt-6 h-auto w-full rounded-lg" loading="lazy" />
+          </article>
+        </li>
+      ))}
+    </ol>
+  </Container>
+</Section>

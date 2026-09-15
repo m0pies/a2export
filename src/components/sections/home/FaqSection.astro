@@ -1,0 +1,87 @@
+---
+import Section from "../../ui/Section.astro";
+import Container from "../../ui/Container.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+import Button from "../../ui/Button.astro";
+
+const questions = [
+  {
+    question: "С какими товарами и направлениями вы работаете?",
+    answer: "Сопровождаем импорт и экспорт оборудования, комплектующих, сырья и готовой продукции. До начала работы проверяем товар, маршрут и документы, чтобы предложить подходящую схему поставки.",
+  },
+  {
+    question: "Можно ли передать вам только часть сделки?",
+    answer: "Да. Подключаемся к отдельному этапу: проверке документов, таможенному оформлению, получению разрешений, валютному контролю или логистике. При необходимости берём на себя весь процесс целиком.",
+  },
+  {
+    question: "Какие документы нужны для предварительного расчёта?",
+    answer: "Обычно достаточно описания товара, страны отправления и назначения, условий поставки и примерного объёма. Если есть контракт, инвойс или техническая документация, расчёт получится точнее.",
+  },
+  {
+    question: "Сколько времени занимает организация поставки?",
+    answer: "Срок зависит от товара, маршрута и готовности документов. После получения исходных данных обозначаем этапы и сроки по каждому из них, а также заранее предупреждаем о возможных рисках.",
+  },
+  {
+    question: "Как формируется стоимость услуг?",
+    answer: "Сначала разбираем задачу и состав работ, затем фиксируем стоимость согласованных услуг. Таможенные платежи, перевозка и другие расходы выделяются отдельно, чтобы расчёт оставался прозрачным.",
+  },
+];
+---
+
+<Section id="faq" border="sides-top" py="py-0">
+  <Container px="px-0">
+    <div class="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-20">
+      <div class="flex max-w-120 text-balance flex-col items-start px-4 md:pl-8 xl:pl-12 2xl:pl-16 py-8 md:py-16 2xl:py-24">
+        <SectionHeader
+          title="FAQ"
+          subtitle="Собрали главное о наших услугах, документах и сопровождении внешнеэкономических сделок."
+        />
+
+        <Button href="/faq" variant="secondary" size="sm" chevron chevronDirection="right" class="mt-8">
+          Все вопросы
+        </Button>
+      </div>
+
+      <div class="border-l border-border py-8 md:py-16 2xl:py-24" data-faq>
+        {questions.map((item, index) => (
+          <details class="group border-b border-border first:border-t p-6" open={index === 0}>
+            <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-ui-lg text-text-primary">
+              <span class="text-balance text-body-lg">{item.question}</span>
+              <span class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-border text-text-secondary transition-colors group-hover:text-text-primary md:h-9 md:w-9" aria-hidden="true">
+                <svg class="h-4 w-4 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 16 16" fill="none">
+                  <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </span>
+            </summary>
+
+            <p class="max-w-140 mt-2 pr-12 text-body">{item.answer}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </Container>
+</Section>
+
+<script>
+  const faq = document.querySelector<HTMLElement>("[data-faq]");
+
+  if (faq) {
+    const items = Array.from(faq.querySelectorAll<HTMLDetailsElement>("details"));
+
+    items.forEach((item) => {
+      item.addEventListener("toggle", () => {
+        if (!item.open) return;
+
+        items.forEach((otherItem) => {
+          if (otherItem !== item) otherItem.open = false;
+        });
+      });
+    });
+  }
+</script>
+
+<style>
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+</style>

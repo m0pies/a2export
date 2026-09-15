@@ -1,0 +1,175 @@
+---
+import Container from "../ui/Container.astro";
+import { navigation } from "../../data/navigation";
+
+const exportItem = navigation.find((item) => item.label === "Экспорт");
+const importItem = navigation.find((item) => item.label === "Импорт");
+const servicesItem = navigation.find((item) => item.label === "Услуги");
+const aboutItem = navigation.find((item) => item.label === "О компании");
+const pricesItem = navigation.find((item) => item.label === "Цены");
+
+const exportLinks = exportItem?.children ?? [];
+const importLinks = importItem?.children ?? [];
+const serviceLinks = servicesItem?.children ?? [];
+const otherLinks = [
+  ...(aboutItem?.children ?? []),
+  pricesItem,
+].filter(Boolean);
+
+const emails = [
+  { address: "a2export@mail.ru", description: "" },
+  { address: "a2exp.customs@mail.ru", description: "ВЭД" },
+];
+
+const phones = [
+  { number: "+7 (499) 455-65-30", description: "Москва", href: "tel:+74994556530" },
+  { number: "+7 (919) 405-55-30", description: "Коммерция", href: "tel:+79194055530" },
+  { number: "+7 (351) 255-55-30", description: "Челябинск", href: "tel:+73512555530" },
+  { number: "+7 (919) 30-555-30", description: "ВЭД", href: "tel:+79193055530" },
+];
+---
+
+<footer class="border-border border-t bg-surface-page">
+  <Container>
+    <div class="grid gap-12 py-12 lg:grid-cols-[minmax(0,1.4fr)_minmax(0,3fr)] lg:gap-16 xl:py-16">
+      <div class="lg:pt-1">
+        <a href="/" class="inline-block text-xl font-semibold tracking-tight" aria-label="А2 Экспорт">
+          А2
+        </a>
+      </div>
+
+      <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_max-content] lg:gap-8">
+        <nav aria-label="Экспорт">
+          <h2 class="text-text-primary text-ui-sm">Экспорт</h2>
+          <ul class="mt-4 grid gap-2.5">
+            {exportLinks.map((link) => (
+              <li class="grid gap-2.5">
+                <a href={link.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+                  {link.label}
+                </a>
+                {link.children && (
+                  <ul class="grid gap-2.5">
+                    {link.children.map((nestedLink) => (
+                      <li>
+                        <a href={nestedLink.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+                          {nestedLink.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <nav aria-label="Импорт">
+          <h2 class="text-text-primary text-ui-sm">Импорт</h2>
+          <ul class="mt-4 grid gap-2.5">
+            {importLinks.map((link) => (
+              <li class="grid gap-2.5">
+                <a href={link.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+                  {link.label}
+                </a>
+                {link.children && (
+                  <ul class="grid gap-2.5">
+                    {link.children.map((nestedLink) => (
+                      <li>
+                        <a href={nestedLink.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+                          {nestedLink.label}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </li>
+            ))}
+          </ul>
+
+          <div class="mt-8">
+            <h2 class="text-text-primary text-ui-sm">Услуги</h2>
+            <ul class="mt-4 grid gap-2.5">
+              {serviceLinks.map((link) => (
+                <li>
+                  <a href={link.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </nav>
+
+        <nav aria-label="Другое">
+        <h2 class="text-text-primary text-ui-sm">Другое</h2>
+          <ul class="mt-4 grid gap-2.5">
+            {otherLinks.map((link) => (
+              <li>
+                <a href={link?.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+                  {link?.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+
+          <div class="mt-8">
+            <h2 class="text-text-primary text-ui-sm">Реквизиты</h2>
+            <dl class="text-text-secondary mt-4 grid gap-2.5 text-caption">
+              <div class="flex gap-2">
+                <dt>ИНН</dt>
+                <dd>7453346232</dd>
+              </div>
+              <div class="flex gap-2">
+                <dt>КПП</dt>
+                <dd>745301001</dd>
+              </div>
+              <div class="flex gap-2">
+                <dt>ОГРН</dt>
+                <dd>1227400015094</dd>
+              </div>
+            </dl>
+          </div>
+        </nav>
+
+        <div>
+          <h2 class="text-text-primary text-ui-sm">Почта</h2>
+          <ul class="mt-4 grid gap-2.5">
+            {emails.map((email) => (
+              <li class="flex items-baseline gap-x-1 whitespace-nowrap text-caption">
+                <a href={`mailto:${email.address}`} class="text-text-secondary transition-colors hover:text-text-primary">
+                  {email.address}
+                </a>
+                {email.description && <span class="text-text-muted">/ {email.description}</span>}
+              </li>
+            ))}
+          </ul>
+
+          <h2 class="text-text-primary mt-8 text-ui-sm">Телефоны</h2>
+          <ul class="mt-4 grid gap-2.5">
+            {phones.map((phone) => (
+              <li class="flex items-baseline gap-x-1 whitespace-nowrap text-caption">
+                <a href={phone.href} class="text-text-secondary transition-colors hover:text-text-primary">
+                  {phone.number}
+                </a>
+                <span class="text-text-muted">/ {phone.description}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-4 py-6 text-caption md:flex-row md:items-center md:justify-between">
+      <p class="text-text-secondary text-caption">© 2026. ООО "А2 Экспорт" Все права защищены.</p>
+
+      <nav class="flex flex-wrap gap-x-6 gap-y-2" aria-label="Правовая информация">
+        <a href="/privacy-policy" class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+          Политика конфиденциальности
+        </a>
+        <a href="/terms-of-use" class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+          Условия пользования
+        </a>
+      </nav>
+    </div>
+  </Container>
+</footer>

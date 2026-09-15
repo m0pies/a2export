@@ -1,0 +1,55 @@
+---
+import Section from "../../ui/Section.astro";
+import Container from "../../ui/Container.astro";
+import Button from "../../ui/Button.astro";
+
+const directions = [
+  {
+    title: "Экспорт из России",
+    description: "Вывозим продукцию из регионов РФ: документы, таможня, перевозка и передача получателю.",
+    href: "/export-out-of-russia",
+    button: "Подробнее об экспорте",
+    image: "/images/globe-export.webp",
+  },
+  {
+    title: "Импорт в Россию",
+    description: "Доставляем товары из-за рубежа до склада в России, включая прямой ввоз из ЕС и США.",
+    href: "/import-in-russia",
+    button: "Подробнее об импорте",
+    image: "/images/globe-import.webp",
+  },
+];
+---
+
+<Section id="directions" border="sides-top">
+  <Container>
+    <div class="grid items-stretch gap-5 md:grid-cols-2 md:gap-6">
+      {directions.map((direction) => (
+        <article class="relative flex h-fit flex-col justify-end overflow-hidden rounded-xl border border-border bg-surface-card p-6">
+          <div class="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
+            <img
+              src={direction.image}
+              alt=""
+              class="absolute right-0 h-[200%] top-1/2 w-auto max-w-none -translate-y-1/2"
+            />
+          </div>
+
+          <div class="relative z-10 max-w-100">
+            <h3 class="text-ui-lg">{direction.title}</h3>
+            <p class="mt-2 block text-body text-text-secondary text-balance">{direction.description}</p>
+            <Button
+              href={direction.href}
+              variant="link"
+              size="sm"
+              chevron
+              chevronDirection="right"
+              class="mt-2 -ml-3"
+            >
+              {direction.button}
+            </Button>
+          </div>
+        </article>
+      ))}
+    </div>
+  </Container>
+</Section>

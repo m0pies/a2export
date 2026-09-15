@@ -1,0 +1,39 @@
+---
+import Section from "../../ui/Section.astro";
+import Container from "../../ui/Container.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+import Button from "../../ui/Button.astro";
+import HeroVisual from "./HeroVisual.astro";
+---
+
+<Section id="hero" class="hero-section relative overflow-hidden">
+    <div
+        class="pointer-events-none absolute inset-0 z-0 bg-gradient-to-b from-surface-page via-surface-page to-accent/15"
+        aria-hidden="true"
+    ></div>
+    <div class="dot-grid hero-dot-grid pointer-events-none absolute inset-0 z-1" aria-hidden="true"></div>
+
+    <Container class="relative z-10 flex flex-col items-center">
+        <SectionHeader heading="h1" align="center" eyebrow="Импорт и экспорт для бизнеса">
+            <Fragment slot="title">
+                 Берём ВЭД на себя.
+            </Fragment>
+            <Fragment slot="subtitle">
+                От проверки документов и таможенного оформления до доставки товара.
+            </Fragment>
+        </SectionHeader> 
+
+        <div class="mt-6 flex flex-wrap items-center justify-center md:mt-8">
+            <Button href="/contacts" variant="primary" size="lg">
+                Получить расчёт
+            </Button>
+        </div>
+
+        <div
+            class="-mx-4 mt-8 xl:mt-12 w-[calc(100%+2rem)] md:-mx-8 md:w-[calc(100%+4rem)] xl:mx-auto xl:w-full xl:max-w-280"
+            aria-hidden="true"
+        >
+            <HeroVisual />
+        </div>
+    </Container>
+</Section>

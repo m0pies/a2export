@@ -1,0 +1,47 @@
+---
+import Section from "../../ui/Section.astro";
+import Container from "../../ui/Container.astro";
+import Button from "../../ui/Button.astro";
+---
+
+<Section id="short-cta" class="bg-accent" border="none" py="py-0">
+  <Container px="px-0">
+    <div class="text-text-inverse py-8 md:py-16 md:px-8 xl:px-12 2xl:px-16">
+      <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between md:gap-10">
+        <div class="flex flex-col text-balance">
+          <h2 class="text-heading">Обсудим вашу задачу?</h2>
+          <p class="mt-2 md:mt-3 xl:mt-4 text-body-lg text-text-inverse/90">Оставьте номер – свяжемся и ответим на вопросы.</p>
+        </div>
+
+        <form class="flex w-full max-w-90 flex-col gap-3" method="post">
+          <div class="flex items-center gap-3">
+            <label class="sr-only" for="short-cta-phone">Номер телефона</label>
+            <input
+              class="min-w-0 flex-1 rounded-lg border border-border bg-surface-card px-3 h-9 text-ui-sm text-text-primary outline-none transition-colors placeholder:text-text-secondary focus:border-text-inverse focus:ring-1 focus:ring-text-inverse"
+              id="short-cta-phone"
+              name="phone"
+              type="tel"
+              inputmode="tel"
+              autocomplete="tel"
+              placeholder="Ваш телефон"
+              required
+            />
+            <Button type="submit" variant="secondary" size="sm">
+              Отправить
+            </Button>
+          </div>
+
+          <label class="flex items-start gap-2 text-caption text-text-inverse/85">
+            <input
+              class="h-4 w-4 shrink-0 accent-accent"
+              name="consent"
+              type="checkbox"
+              required
+            />
+            <span class="text-caption">Соглашаюсь с политикой конфиденциальности</span>
+          </label>
+        </form>
+      </div>
+    </div>
+  </Container>
+</Section>

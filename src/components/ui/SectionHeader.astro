@@ -1,0 +1,62 @@
+---
+interface Props {
+  eyebrow?: string;
+  title?: string;
+  subtitle?: string;
+
+  align?: "left" | "center" | "right";
+  heading?: "h1" | "h2" | "h3";
+
+  class?: string;
+  animate?: boolean;
+}
+
+const {
+  eyebrow,
+  title,
+  subtitle,
+
+  align = "left",
+  heading = "h2",
+
+  class: className = "",
+  animate = true,
+} = Astro.props;
+
+const Heading = heading;
+const hasTitleSlot = Astro.slots.has("title");
+const hasSubtitleSlot = Astro.slots.has("subtitle");
+
+const alignClasses = {
+  left: "items-start text-left",
+  center: "items-center text-center mx-auto",
+  right: "items-end text-right ml-auto",
+};
+---
+
+<div
+  class:list={[
+    "flex max-w-200 flex-col",
+    alignClasses[align],
+    className,
+  ]}
+  data-reveal={animate ? "up" : undefined}
+>
+  {eyebrow && (
+    <span class="text-ui-sm rounded-full py-1 px-2 bg-gradient-to-b from-neutral-50 to-neutral-100 border border-1 border-neutral-950/10 text-text-secondary mb-2 md:mb-3 xl:mb-5">
+      {eyebrow}
+    </span>
+  )}
+
+  {(title || hasTitleSlot) && (
+    <Heading class="text-balance">
+      {hasTitleSlot ? <slot name="title" /> : title}
+    </Heading>
+  )}
+
+  {(subtitle || hasSubtitleSlot) && (
+    <p class="max-w-120 text-body-lg text-balance mt-3 md:mt-4 xl:mt-5">
+      {hasSubtitleSlot ? <slot name="subtitle" /> : subtitle}
+    </p>
+  )}
+</div>

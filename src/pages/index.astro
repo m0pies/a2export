@@ -1,17 +1,34 @@
 ---
+import BaseLayout from "../layouts/BaseLayout.astro";
 
+import Hero from "../components/sections/home/Hero.astro";
+import DifferencesSection from "../components/sections/home/DifferencesSection.astro";
+import DirectionsSection from "../components/sections/home/DirectionsSection.astro";
+import ServicesSection from "../components/sections/home/ServicesSection.astro";
+import ProcessSection from "../components/sections/home/ProcessSection.astro";
+import CasesSection from "../components/sections/home/CasesSection.astro";
+import ArticlesSection from "../components/sections/home/ArticlesSection.astro";
+import TestimonialsSection from "../components/sections/home/TestimonialsSection.astro";
+import AboutSection from "../components/sections/home/AboutSection.astro";
+import ShortCtaSection from "../components/sections/home/ShortCtaSection.astro";
+import FaqSection from "../components/sections/home/FaqSection.astro";
+import BigCtaSection from "../components/sections/home/BigCtaSection.astro";
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>A2 Export</title>
-	</head>
-	<body>
-		<h1>A2 Export</h1>
-	</body>
-</html>
+<BaseLayout
+  title="A2 Export"
+  description="Описание сайта"
+>
+  <Hero />
+  <DifferencesSection />
+  <DirectionsSection />
+  <ServicesSection />
+  <ProcessSection />
+  <!-- <CasesSection /> -->
+  <ShortCtaSection />
+  <TestimonialsSection />
+  <AboutSection />
+  <ArticlesSection />
+  <FaqSection />
+  <BigCtaSection />
+</BaseLayout>

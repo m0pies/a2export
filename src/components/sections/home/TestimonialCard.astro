@@ -1,0 +1,31 @@
+---
+interface Props {
+  testimonial: {
+    quote: string;
+    name: string;
+    role: string;
+    company: string;
+    avatar: string;
+  };
+}
+
+const { testimonial } = Astro.props;
+---
+
+<article class="flex w-[82vw] min-w-[18.75rem] max-w-[25rem] flex-col rounded-xl border border-border bg-surface-card p-6 md:w-[15vw] ">
+  <div class="mb-4 flex flex-row items-center gap-3">
+    <img
+      src={testimonial.avatar}
+      alt={`Аватар ${testimonial.name}`}
+      width="40"
+      height="40"
+      loading="lazy"
+      class="h-10 w-10 shrink-0 rounded-full object-cover"
+    />
+    <p class="text-ui text-text-primary">{testimonial.name}</p>
+  </div>
+  <blockquote class="flex-1 text-body-sm text-text-secondary text-balance">
+    {testimonial.quote}
+  </blockquote>
+      
+</article>

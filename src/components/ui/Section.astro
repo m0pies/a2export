@@ -1,0 +1,59 @@
+---
+interface Props {
+  id?: string;
+  class?: string;
+  border?: "none" | "sides" | "top-bottom" | "sides-top" | "sides-bottom" | "sides-top-bottom" | "frame";
+  py?: string;
+}
+
+const {
+  id,
+  class: className = "",
+  border = "none",
+  py = "py-8 md:py-16 2xl:py-24",
+} = Astro.props;
+
+const borderConfig = {
+  none: { sides: false, top: false, bottom: false, frame: false },
+  sides: { sides: true, top: false, bottom: false, frame: false },
+  "top-bottom": { sides: false, top: true, bottom: true, frame: false },
+  "sides-top": { sides: true, top: true, bottom: false, frame: false },
+  "sides-bottom": { sides: true, top: false, bottom: true, frame: false },
+  "sides-top-bottom": { sides: true, top: true, bottom: true, frame: false },
+  frame: { sides: false, top: false, bottom: false, frame: true },
+} as const;
+
+const borderState = borderConfig[border];
+---
+
+<div id={id} class={`relative ${py} ${className}`}>
+  {borderState.sides && (
+    <div
+      class="pointer-events-none absolute inset-y-0 left-1/2 z-20 hidden w-full max-w-360 -translate-x-1/2 border-x border-border md:block"
+      aria-hidden="true"
+    ></div>
+  )}
+
+  {borderState.top && (
+    <div
+      class="pointer-events-none absolute inset-x-0 top-0 hidden border-t border-border md:block"
+      aria-hidden="true"
+    ></div>
+  )}
+
+  {borderState.bottom && (
+    <div
+      class="pointer-events-none absolute inset-x-0 bottom-0 hidden border-b border-border md:block"
+      aria-hidden="true"
+    ></div>
+  )}
+
+  {borderState.frame && (
+    <div
+      class="pointer-events-none absolute inset-y-0 left-1/2 hidden w-full max-w-360 -translate-x-1/2 border border-border md:block"
+      aria-hidden="true"
+    ></div>
+  )}
+
+  <slot />
+</div>

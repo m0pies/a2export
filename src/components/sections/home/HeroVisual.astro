@@ -1,0 +1,155 @@
+---
+import { FileCheck2, Package, PackageOpen, Route, Stamp, Workflow } from "@lucide/astro";
+
+const endpoints = [
+  { id: "left-top", side: "left", row: "top", Icon: PackageOpen },
+  { id: "left-middle", side: "left", row: "middle", Icon: Package },
+  { id: "left-bottom", side: "left", row: "bottom", Icon: FileCheck2 },
+  { id: "right-top", side: "right", row: "top", Icon: Stamp },
+  { id: "right-middle", side: "right", row: "middle", Icon: Route },
+  { id: "right-bottom", side: "right", row: "bottom", Icon: Workflow },
+];
+---
+
+<div class="hero-network relative h-90 w-full md:h-94 xl:h-100" data-hero-network aria-hidden="true">
+  <svg
+    class="pointer-events-none absolute inset-0 z-0 h-full w-full"
+    viewBox="0 0 1 1"
+    preserveAspectRatio="none"
+  >
+    <g fill="none" stroke="var(--color-border)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      {endpoints.map((endpoint) => <path data-network-route={endpoint.id} />)}
+    </g>
+  </svg>
+
+  {endpoints.map((endpoint) => (
+    <div
+      class:list={[
+        "absolute z-10 flex h-[40px] w-[40px] lg:h-[56px] lg:w-[56px] -translate-y-1/2 items-center justify-center rounded-md border-2 border-border bg-surface-card max-md:h-[80px] max-md:w-[80px]",
+        endpoint.side === "left" ? "left-[14%] max-md:left-4" : "right-[14%] max-md:right-4",
+        endpoint.row === "top" ? "top-[15%]" : "",
+        endpoint.row === "middle" ? "top-1/2" : "",
+        endpoint.row === "bottom" ? "top-[85%]" : "",
+      ]}
+      data-network-endpoint={endpoint.id}
+    >
+      <endpoint.Icon size={20} stroke-width={2} class="h-7 w-7 text-text-primary" aria-hidden="true" />
+    </div>
+  ))}
+
+  <div class="absolute left-1/2 top-1/2 z-10 flex h-[160px] w-[160px] xl:h-[200px] xl:w-[200px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border-2 border-border bg-surface-card text-accent" data-network-center>
+    <span class="text-stat xl:text-[72px] font-semibold">A2</span>
+  </div>
+</div>
+
+<script>
+  const network = document.querySelector<HTMLElement>("[data-hero-network]");
+
+  if (network) {
+    const svg = network.querySelector<SVGSVGElement>("svg");
+    const center = network.querySelector<HTMLElement>("[data-network-center]");
+    const routeElements = Array.from(network.querySelectorAll<SVGPathElement>("[data-network-route]"));
+    const endpointElements = new Map(
+      Array.from(network.querySelectorAll<HTMLElement>("[data-network-endpoint]")).map((endpoint) => [
+        endpoint.dataset.networkEndpoint,
+        endpoint,
+      ]),
+    );
+
+    const getPoint = (element: HTMLElement, containerRect: DOMRect) => {
+      const rect = element.getBoundingClientRect();
+
+      return {
+        left: rect.left - containerRect.left,
+        right: rect.right - containerRect.left,
+        top: rect.top - containerRect.top,
+        bottom: rect.bottom - containerRect.top,
+        centerX: rect.left - containerRect.left + rect.width / 2,
+        centerY: rect.top - containerRect.top + rect.height / 2,
+      };
+    };
+
+    const createRoute = (
+      start: { x: number; y: number },
+      target: { x: number; y: number },
+      side: "left" | "right",
+      row: "top" | "middle" | "bottom",
+      containerWidth: number,
+    ) => {
+      const sideDirection = side === "left" ? -1 : 1;
+
+      if (row === "middle") {
+        return `M${start.x} ${start.y}H${target.x}`;
+      }
+
+      const verticalDirection = row === "top" ? -1 : 1;
+      const cornerRadius = 8;
+      const availableDistance = Math.max(
+        Math.abs(start.x - target.x) - cornerRadius * 2,
+        cornerRadius * 2,
+      );
+      const turnDistance = Math.min(52, containerWidth * 0.12, availableDistance);
+      const turnX = target.x - sideDirection * turnDistance;
+      const approachX = turnX - sideDirection * cornerRadius;
+      const firstCornerY = start.y + verticalDirection * cornerRadius;
+      const secondCornerY = target.y - verticalDirection * cornerRadius;
+      const exitX = turnX + sideDirection * cornerRadius;
+
+      return [
+        `M${start.x} ${start.y}`,
+        `H${approachX}`,
+        `Q${turnX} ${start.y} ${turnX} ${firstCornerY}`,
+        `V${secondCornerY}`,
+        `Q${turnX} ${target.y} ${exitX} ${target.y}`,
+        `H${target.x}`,
+      ].join("");
+    };
+
+    const updateRoutes = () => {
+      if (!svg || !center) return;
+
+      const containerRect = network.getBoundingClientRect();
+      const centerPoint = getPoint(center, containerRect);
+      const centerY = centerPoint.centerY;
+      const centerTop = centerPoint.top;
+      const centerBottom = centerPoint.bottom;
+      const startYByRow = {
+        top: centerTop + 50,
+        middle: centerY,
+        bottom: centerBottom - 50,
+      };
+
+      svg.setAttribute("viewBox", `0 0 ${containerRect.width} ${containerRect.height}`);
+
+      routeElements.forEach((route) => {
+        const endpoint = endpointElements.get(route.dataset.networkRoute ?? "");
+        if (!endpoint) return;
+
+        const [side, row] = (route.dataset.networkRoute ?? "").split("-") as [
+          "left" | "right",
+          "top" | "middle" | "bottom",
+        ];
+        const endpointPoint = getPoint(endpoint, containerRect);
+        const startX = side === "left" ? centerPoint.left : centerPoint.right;
+        const targetX = endpointPoint.centerX;
+
+        route.setAttribute(
+          "d",
+          createRoute(
+            { x: startX, y: startYByRow[row] },
+            { x: targetX, y: endpointPoint.centerY },
+            side,
+            row,
+            containerRect.width,
+          ),
+        );
+      });
+    };
+
+    const resizeObserver = new ResizeObserver(updateRoutes);
+    resizeObserver.observe(network);
+    endpointElements.forEach((endpoint) => resizeObserver.observe(endpoint));
+    resizeObserver.observe(center);
+    updateRoutes();
+  }
+</script>

@@ -1,0 +1,66 @@
+---
+import Section from "../../ui/Section.astro";
+import Container from "../../ui/Container.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+
+const articles = [
+  {
+    title: "В РФ начались четыре эксперимента по маркировке",
+    date: "2 июля 2024",
+    dateTime: "2024-07-02",
+    topic: "Импорт",
+    image: "/images/article/coverArticle1.webp",
+    description: "С 1 июля 2024 года в России начались эксперименты по маркировке коктейлей...",
+  },
+  {
+    title: "Уточнен Порядок заполнения декларации на товары",
+    date: "2 июля 2024",
+    dateTime: "2024-07-02",
+    topic: "Экспорт",
+    image: "/images/article/coverArticle2.webp",
+    description: "Коллегия Евразийской экономической комиссии внесла изменения в приложения...",
+  },
+  {
+    title: "М. Мишустин провел в Москве встречу с премьером Киргизии",
+    date: "16 февраля 2024",
+    dateTime: "2024-02-16",
+    topic: "Таможня",
+    image: "/images/article/coverArticle3.webp",
+    description: "Главы правительств обсудили актуальные вопросы российско...",
+  },
+];
+---
+
+<Section id="articles" border="sides">
+  <Container>
+    <SectionHeader heading="h2">
+      <Fragment slot="title">
+        Разбираем изменения ВЭД <strong class="text-accent font-semibold">понятным языком</strong>
+      </Fragment>  
+    </SectionHeader>
+
+    <div class="mt-8 grid gap-4 md:mt-12 md:grid-cols-3 md:gap-6">
+      {articles.map((article) => (
+        <article class="relative flex h-fit flex-col rounded-xl border border-border bg-surface-card">
+
+          <img
+            src={article.image}
+            alt={`Иллюстрация: ${article.title}`}
+            class="h-auto w-full rounded-t-xl"
+            loading="lazy"
+          />
+
+          <div class="p-6 flex flex-col text-balance">
+            <div class="mb-3 flex items-center gap-1.5 text-caption text-text-secondary">
+              <span>{article.topic}</span>
+              ·
+              <time datetime={article.dateTime}>{article.date}</time>
+            </div>
+            <h3 class="max-w-120 text-ui-lg">{article.title}</h3>
+            {/* <p class="mt-2 max-w-120 text-body">{article.description}</p> */}
+          </div>
+        </article>
+      ))}
+    </div>
+  </Container>
+</Section>

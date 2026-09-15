@@ -1,0 +1,37 @@
+---
+import Section from "../../ui/Section.astro";
+import Container from "../../ui/Container.astro";
+import Button from "../../ui/Button.astro";
+
+const stats = [
+  { value: "8 лет", label: "опыта работы" },
+  { value: "120+", label: "клиентов в год" },
+  { value: "₽ 2,4 млрд", label: "сумма оформленных сделок" },
+  { value: "12 стран", label: "география поставок" },
+];
+---
+
+<Section id="about" border="sides-bottom" py="py-0">
+  <Container px="px-0">
+    <div class="grid lg:grid-cols-2 lg:items-center">
+      <div class="flex w-full border-border border-r py-8 md:py-16 2xl:py-24 flex-col items-start pl-4 md:px-8 xl:pl-12 2xl:pl-16">
+        <p class="text-intro font-medium text-text-secondary">
+          А2 Экспорт работает с <strong class="text-text-primary font-medium">импортом, экспортом, международной логистикой и таможенным оформлением.</strong>Мы подключаемся к отдельной услуге или берем на себя весь процесс, если бизнесу нужен <strong class="text-text-primary font-medium">один ответственный исполнитель.</strong>
+        </p>
+
+        <Button href="/about" variant="secondary" size="sm" chevron chevronDirection="right" class="mt-8">
+          О компании
+        </Button>
+      </div>
+
+      <dl class="w-full   grid grid-cols-2 h-full border-border border-t sm:border-none">
+        {stats.map((stat) => (
+          <div class="flex nth-3:justify-start nth-4:justify-start justify-end pl-6 border-b w-full border-border odd:border-r flex-col py-8">
+            <dt class="text-stat text-accent">{stat.value}</dt>
+            <dd class="mt-2 text-caption text-text-secondary">{stat.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </Container>
+</Section>

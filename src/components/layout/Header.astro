@@ -1,0 +1,301 @@
+---
+import Container from "../ui/Container.astro";
+import Button from "../ui/Button.astro";
+import { navigation } from "../../data/navigation";
+
+const dropdownItems = navigation.filter((item) => item.children);
+---
+
+<header id="site-header" class="bg-surface-page sticky top-0 z-50 border-b border-transparent transition-colors">
+  <Container class="flex h-16 items-center justify-between gap-6">
+    <div class="flex min-w-0 items-center gap-8">
+      <a
+        href="/"
+        class="shrink-0 text-xl font-semibold tracking-tight"
+        aria-label="А2 Экспорт"
+      >
+        А2
+      </a>
+
+      <div id="desktop-navigation" class="relative hidden lg:block">
+        <nav class="flex items-center gap-1" aria-label="Навигация">
+          {navigation.map((item) => (
+            item.children ? (
+              <Button
+                class="nav-trigger"
+                variant="tertiary"
+                size="sm"
+                chevron
+                data-menu-index={dropdownItems.indexOf(item)}
+                aria-expanded="false"
+              >
+                {item.label}
+              </Button>
+            ) : (
+              <Button href={item.href} variant="tertiary" size="sm">
+                {item.label}
+              </Button>
+            )
+          ))}
+        </nav>
+
+        <div
+          id="desktop-menu"
+          class="bg-surface-page border-border invisible absolute left-0 top-[calc(100%+0.5rem)] w-[min(25rem,calc(100vw-2rem))] rounded-xl border opacity-0 shadow-sm transition-[opacity,visibility] duration-200"
+          aria-hidden="true"
+        >
+          {dropdownItems.map((item, index) => (
+            <div class:list={["desktop-panel hidden", index === 0 && ""]}>
+              <div class:list={["grid gap-1 p-2", index === 0 && "md:grid-cols-2"]}>
+                {index === 0 ? (
+                  item.children?.map((child) => (
+                    <>
+                      {child.href && (
+                        <Button
+                          href={child.href}
+                          variant="tertiary"
+                          size="sm"
+                          class="w-full justify-start text-ui-sm"
+                        >
+                          {child.label}
+                        </Button>
+                      )}
+                      {child.children?.map((nested) => (
+                        <Button
+                          href={nested.href}
+                          variant="tertiary"
+                          size="sm"
+                          class="w-full justify-start text-ui-sm"
+                        >
+                          {nested.label}
+                        </Button>
+                      ))}
+                    </>
+                  ))
+                ) : (
+                  item.children?.map((child) => (
+                    <div class="grid content-start">
+                      {child.href && (
+                        <Button
+                          href={child.href}
+                          variant="tertiary"
+                          size="sm"
+                          class="w-full justify-start text-ui-sm"
+                        >
+                          {child.label}
+                        </Button>
+                      )}
+                      {child.children?.map((nested) => (
+                        <Button
+                          href={nested.href}
+                          variant="tertiary"
+                          size="sm"
+                          class="w-full justify-start text-ui-sm"
+                        >
+                          {nested.label}
+                        </Button>
+                      ))}
+                    </div>
+                  ))
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="flex shrink-0 items-center gap-2">
+      <Button
+        id="header-cta"
+        variant="secondary"
+        href="/contacts"
+        size="sm"
+      >
+        Связаться с нами
+      </Button>
+
+      <Button variant="primary" href="/contacts" size="sm" class="hidden lg:inline-flex">
+        Получить расчёт
+      </Button>
+
+      <button
+        id="menu-toggle"
+        type="button"
+        class="text-text-primary inline-flex h-10 w-10 items-center justify-center rounded-full lg:hidden"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+        aria-label="Открыть меню"
+      >
+        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path id="menu-icon" d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" stroke-linecap="round" />
+        </svg>
+      </button>
+    </div>
+  </Container>
+
+  <div
+    id="mobile-menu"
+    class="bg-surface-page fixed inset-x-0 bottom-0 top-16 z-40 hidden max-h-[calc(100vh-4rem)] overflow-y-auto lg:hidden"
+  >
+    <Container class="flex flex-col gap-1 py-6">
+      {navigation.map((item) => (
+        item.children ? (
+            <details class="border-border border-b py-3">
+            <summary class="text-text-primary flex cursor-pointer list-none items-center justify-between text-ui-lg">
+              {item.label}
+              <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="m4 6 4 4 4-4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </summary>
+
+            <div class="mt-3 grid gap-2 pl-4">
+              {item.children?.map((child) => (
+                child.children ? (
+                  <div class="grid gap-2 pb-2">
+                    <Button href={child.href} variant="tertiary" size="sm" class="justify-start text-ui">{child.label}</Button>
+                    {child.children.map((nested) => (
+                      <Button href={nested.href} variant="tertiary" size="sm" class="justify-start text-ui">{nested.label}</Button>
+                    ))}
+                  </div>
+                ) : (
+                  <Button href={child.href} variant="tertiary" size="sm" class="justify-start text-ui">{child.label}</Button>
+                )
+              ))}
+            </div>
+          </details>
+        ) : (
+          <Button href={item.href} variant="tertiary" size="md" class="w-full justify-start border-border border-b py-3 text-ui-lg">
+            {item.label}
+          </Button>
+        )
+      ))}
+
+      <Button href="/contacts" size="md" class="mt-5 w-full variant="secondary"">
+        Связаться с нами
+      </Button>
+    </Container>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector("#site-header");
+  const desktopNavigation = document.querySelector("#desktop-navigation");
+  const desktopMenu = document.querySelector("#desktop-menu");
+  const panels = [...document.querySelectorAll<HTMLElement>(".desktop-panel")];
+  const triggers = [...document.querySelectorAll<HTMLButtonElement>(".nav-trigger")];
+  const mobileToggle = document.querySelector<HTMLButtonElement>("#menu-toggle");
+  const mobileMenu = document.querySelector<HTMLElement>("#mobile-menu");
+  const headerCta = document.querySelector<HTMLElement>("#header-cta");
+
+  let activeIndex = -1;
+  let closeTimer: ReturnType<typeof setTimeout>;
+
+  function showDropdown(index: number) {
+    const direction = index >= activeIndex ? "right" : "left";
+    activeIndex = index;
+
+    panels.forEach((panel, panelIndex) => {
+      panel.classList.toggle("hidden", panelIndex !== index);
+
+      if (panelIndex === index) {
+        panel.classList.remove("menu-from-right", "menu-from-left");
+        void panel.offsetWidth;
+        panel.classList.add(`menu-from-${direction}`);
+      }
+    });
+
+    desktopMenu?.classList.remove("invisible", "opacity-0");
+    desktopMenu?.setAttribute("aria-hidden", "false");
+    triggers.forEach((trigger, triggerIndex) => {
+      trigger.setAttribute("aria-expanded", String(triggerIndex === index));
+    });
+  }
+
+  function closeDropdown() {
+    desktopMenu?.classList.add("invisible", "opacity-0");
+    desktopMenu?.setAttribute("aria-hidden", "true");
+    triggers.forEach((trigger) => trigger.setAttribute("aria-expanded", "false"));
+    activeIndex = -1;
+  }
+
+  triggers.forEach((trigger) => {
+    trigger.addEventListener("mouseenter", () => {
+      clearTimeout(closeTimer);
+      showDropdown(Number(trigger.dataset.menuIndex));
+    });
+  });
+
+  document.querySelectorAll("#desktop-navigation nav > a").forEach((link) => {
+    link.addEventListener("mouseenter", () => {
+      clearTimeout(closeTimer);
+      closeDropdown();
+    });
+  });
+
+  desktopNavigation?.addEventListener("mouseenter", () => clearTimeout(closeTimer));
+  desktopNavigation?.addEventListener("mouseleave", () => {
+    closeTimer = setTimeout(closeDropdown, 150);
+  });
+
+  function updateScrollState() {
+    header?.classList.toggle("is-scrolled", window.scrollY > 4);
+  }
+
+  updateScrollState();
+  window.addEventListener("scroll", updateScrollState, { passive: true });
+
+  mobileToggle?.addEventListener("click", () => {
+    const isOpen = mobileToggle.getAttribute("aria-expanded") === "true";
+
+    mobileToggle.setAttribute("aria-expanded", String(!isOpen));
+    mobileToggle.setAttribute("aria-label", isOpen ? "Открыть меню" : "Закрыть меню");
+    mobileMenu?.classList.toggle("hidden", isOpen);
+    headerCta?.classList.toggle("hidden", !isOpen);
+    document.body.classList.toggle("overflow-hidden", !isOpen);
+    document.querySelector("#menu-icon")?.setAttribute(
+      "d",
+      isOpen ? "M3 6h14M3 10h14M3 14h14" : "M5 5l10 10M15 5 5 15",
+    );
+  });
+</script>
+
+<style>
+  @keyframes menu-from-left {
+    from {
+      opacity: 0;
+      transform: translateX(-16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @keyframes menu-from-right {
+    from {
+      opacity: 0;
+      transform: translateX(16px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  :global(.menu-from-left) {
+    animation: menu-from-left 180ms ease-out both;
+  }
+
+  :global(.menu-from-right) {
+    animation: menu-from-right 180ms ease-out both;
+  }
+
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  :global(#site-header.is-scrolled) {
+    border-bottom-color: var(--color-border);
+  }
+</style>

@@ -1,0 +1,75 @@
+---
+interface Props {
+  variant?: "primary" | "secondary" | "tertiary" | "link";
+  size?: "sm" | "md" | "lg" | "xl";
+  href?: string;
+  type?: "button" | "submit" | "reset";
+  iconOnly?: boolean;
+  chevron?: boolean;
+  chevronDirection?: "down" | "right";
+  chevronStrokeWidth?: number;
+  class?: string;
+  ariaLabel?: string;
+}
+
+const {
+  variant = "primary",
+  size = "md",
+  href,
+  type = "button",
+  iconOnly = false,
+  chevron = false,
+  chevronDirection = "down",
+  chevronStrokeWidth = 1.5,
+  class: className,
+  ariaLabel,
+  ...attrs
+} = Astro.props;
+
+const base = "inline-flex shrink-0 items-center justify-center font-medium transition-all duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-text-primary";
+const variants = {
+  primary: "bg-accent text-text-inverse hover:opacity-80",
+  secondary: "border-border text-text-primary bg-surface-card border hover:border-text-muted",
+  tertiary: "text-text-secondary hover:text-accent",
+  link: "text-accent hover:opacity-80",
+};
+const sizes = {
+  sm: "min-h-9 px-3 text-ui-sm gap-1.5 rounded-lg ",
+  md: "min-h-10 px-4 text-ui gap-2 rounded-lg",
+  lg: "min-h-11 px-5 text-ui gap-2 rounded-lg",
+  xl: "min-h-14 px-8 text-ui-lg gap-2.5",
+};
+const iconOnlySizes = {
+  sm: "h-9 w-9 p-0",
+  md: "h-11 w-11 p-0",
+  lg: "h-12 w-12 p-0",
+  xl: "h-14 w-14 p-0",
+};
+const classes = [base, variants[variant], iconOnly ? iconOnlySizes[size] : sizes[size], chevron && "group", className].filter(Boolean).join(" ");
+const chevronPath = chevronDirection === "right" ? "m6 4 4 4-4 4" : "m4 6 4 4 4-4";
+const chevronClasses = chevronDirection === "right"
+  ? "transition-transform duration-200 ease-out group-hover:translate-x-1 motion-reduce:transition-none motion-reduce:group-hover:translate-x-0"
+  : "origin-center transition-transform duration-200 ease-out group-hover:rotate-180 motion-reduce:transition-none motion-reduce:group-hover:rotate-0";
+---
+
+{href ? (
+  <a href={href} class={classes} aria-label={ariaLabel} {...attrs}>
+    <slot name="icon" />
+    <slot />
+    {chevron && (
+      <svg class:list={["h-3.5 w-3.5", chevronClasses]} viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d={chevronPath} stroke="currentColor" stroke-width={chevronStrokeWidth} stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )}
+  </a>
+) : (
+  <button type={type} class={classes} aria-label={ariaLabel} {...attrs}>
+    <slot name="icon" />
+    <slot />
+    {chevron && (
+      <svg class:list={["h-3.5 w-3.5", chevronClasses]} viewBox="0 0 16 16" fill="none" aria-hidden="true">
+        <path d={chevronPath} stroke="currentColor" stroke-width={chevronStrokeWidth} stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )}
+  </button>
+)}

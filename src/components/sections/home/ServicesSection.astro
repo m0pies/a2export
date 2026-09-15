@@ -1,0 +1,237 @@
+---
+import Section from "../../ui/Section.astro";
+import Container from "../../ui/Container.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+import Button from "../../ui/Button.astro";
+import { BadgeCheck, BriefcaseBusiness, Calculator, Languages, Stamp } from "@lucide/astro";
+
+const services = [
+  {
+    title: "Таможенный представитель",
+    description: "Подготовка и подача декларации, проверка документов, код ТН ВЭД и взаимодействие с таможенными органами.",
+    href: "/services/customs-representative",
+    Icon: Stamp,
+  },
+  {
+    title: "ВЭД-аутсорсинг",
+    description: "Контракты, расчеты, валютный контроль, логистика и сопровождение внешнеэкономической деятельности.",
+    href: "/services/foreign-trade-outsourcing",
+    Icon: BriefcaseBusiness,
+  },
+  {
+    title: "Сертификаты СТ-1",
+    description: "Сертификаты происхождения, разрешения, лицензии и документы, необходимые для конкретного товара и направления.",
+    href: "/services/st-1-certificates",
+    Icon: BadgeCheck,
+  },
+  {
+    title: "ВЭД-бухгалтерия",
+    description: "Документы по валютным операциям, курсовые разницы, таможенные платежи и учет внешнеэкономических сделок.",
+    href: "/services/accounting-support",
+    Icon: Calculator,
+  },
+  {
+    title: "Услуги переводчика",
+    description: "Перевод внешнеторговых, технических и сопроводительных документов для работы с зарубежными контрагентами.",
+    href: "/services/translation-services",
+    Icon: Languages,
+  },
+];
+---
+
+<Section id="services" border="top-bottom">
+  <div data-services-slider>
+    <Container>
+      <div class="flex items-end justify-between gap-6">
+        <SectionHeader
+          title="Сопровождаем сделку полностью или точечно."
+        />
+
+        <div class="mb-0.5 hidden shrink-0 gap-2 md:mb-1 lg:flex">
+          <Button
+            variant="secondary"
+            size="sm"
+            iconOnly
+            ariaLabel="Предыдущие услуги"
+            data-services-prev
+            disabled
+            class="rounded-full disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <Fragment slot="icon">
+              <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="m9.5 3.5-4 4 4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </Fragment>
+          </Button>
+          <Button
+            variant="secondary"
+            size="sm"
+            iconOnly
+            ariaLabel="Следующие услуги"
+            data-services-next
+            class="rounded-full disabled:cursor-not-allowed disabled:opacity-40"
+          >
+            <Fragment slot="icon">
+              <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                <path d="m6.5 3.5 4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </Fragment>
+          </Button>
+        </div>
+      </div>
+    </Container>
+
+    <div class="mt-8 w-full snap-x snap-mandatory overflow-x-auto overscroll-x-contain md:mt-12" data-services-track tabindex="0" aria-label="Услуги">
+      <div class="flex w-max gap-4 pr-4 md:gap-5 md:pr-8 xl:pr-12 2xl:pr-16" data-services-items>
+        {services.map((service) => (
+          <article class="flex w-[80vw] md:w-[33vw] max-w-100 snap-start flex-col rounded-xl border border-border bg-surface-card p-6">
+            <div class="flex min-h-28 flex-1 flex-col">
+              <div class="flex flex-row gap-3">
+                <service.Icon size={20} stroke-width={2} class="h-6 w-6 text-text-primary" aria-hidden="true" />
+                <h3 class="text-ui-lg text-balance">{service.title}</h3>
+              </div>
+              <p class="mt-2 block text-body text-text-secondary text-balance">{service.description}</p>
+            </div>
+
+            <Button
+              href={service.href}
+              variant="link"
+              size="sm"
+              chevron
+              chevronDirection="right"
+              class="mt-2 -ml-3 self-start"
+            >
+              Подробнее
+            </Button>
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-5 flex justify-end gap-2 pr-4 lg:hidden md:pr-8 xl:pr-12 2xl:pr-16">
+      <Button
+        variant="secondary"
+        size="sm"
+        iconOnly
+        ariaLabel="Предыдущие услуги"
+        data-services-prev
+        disabled
+        class="rounded-full disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        <Fragment slot="icon">
+          <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="m9.5 3.5-4 4 4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </Fragment>
+      </Button>
+      <Button
+        variant="secondary"
+        size="sm"
+        iconOnly
+        ariaLabel="Следующие услуги"
+        data-services-next
+        class="rounded-full disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        <Fragment slot="icon">
+          <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="m6.5 3.5 4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </Fragment>
+      </Button>
+    </div>
+  </div>
+</Section>
+
+<script>
+  const slider = document.querySelector<HTMLElement>("[data-services-slider]");
+
+  if (slider) {
+    const track = slider.querySelector<HTMLElement>("[data-services-track]");
+    const previousButtons = Array.from(slider.querySelectorAll<HTMLButtonElement>("[data-services-prev]"));
+    const nextButtons = Array.from(slider.querySelectorAll<HTMLButtonElement>("[data-services-next]"));
+
+    if (track && previousButtons.length > 0 && nextButtons.length > 0) {
+      const updateButtons = () => {
+        const maxScrollLeft = track.scrollWidth - track.clientWidth;
+        previousButtons.forEach((button) => {
+          button.disabled = track.scrollLeft <= 1;
+        });
+        nextButtons.forEach((button) => {
+          button.disabled = track.scrollLeft >= maxScrollLeft - 1;
+        });
+      };
+
+      const getScrollDistance = () => {
+        const card = track.querySelector<HTMLElement>("article");
+        if (!card) return track.clientWidth;
+
+        const gap = Number.parseFloat(getComputedStyle(track).columnGap) || 0;
+        return card.offsetWidth + gap;
+      };
+
+      previousButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          track.scrollBy({ left: -getScrollDistance(), behavior: "smooth" });
+        });
+      });
+
+      nextButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          track.scrollBy({ left: getScrollDistance(), behavior: "smooth" });
+        });
+      });
+
+      track.addEventListener("scroll", updateButtons, { passive: true });
+      window.addEventListener("resize", updateButtons);
+      updateButtons();
+    }
+  }
+</script>
+
+<style>
+  [data-services-track] {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    scroll-padding-left: max(1rem, calc((100vw - 90rem) / 2 + 1rem));
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  [data-services-track]::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-services-items] {
+    padding-left: max(1rem, calc((100vw - 90rem) / 2 + 1rem));
+  }
+
+  @media (min-width: 48rem) {
+    [data-services-track] {
+      scroll-padding-left: max(2rem, calc((100vw - 90rem) / 2 + 2rem));
+    }
+
+    [data-services-items] {
+      padding-left: max(2rem, calc((100vw - 90rem) / 2 + 2rem));
+    }
+  }
+
+  @media (min-width: 80rem) {
+    [data-services-track] {
+      scroll-padding-left: max(3rem, calc((100vw - 90rem) / 2 + 3rem));
+    }
+
+    [data-services-items] {
+      padding-left: max(3rem, calc((100vw - 90rem) / 2 + 3rem));
+    }
+  }
+
+  @media (min-width: 96rem) {
+    [data-services-track] {
+      scroll-padding-left: max(4rem, calc((100vw - 90rem) / 2 + 4rem));
+    }
+
+    [data-services-items] {
+      padding-left: max(4rem, calc((100vw - 90rem) / 2 + 4rem));
+    }
+  }
+</style>

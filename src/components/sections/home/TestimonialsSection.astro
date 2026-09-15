@@ -1,0 +1,75 @@
+---
+import Section from "../../ui/Section.astro";
+import Container from "../../ui/Container.astro";
+import SectionHeader from "../../ui/SectionHeader.astro";
+import TestimonialCard from "./TestimonialCard.astro";
+
+const testimonials = [
+  {
+    quote: "Собрали всю схему поставки с нуля: от проверки поставщика до доставки на наш склад. Все статусы и документы были под контролем.",
+    name: "Алексей Морозов",
+    role: "директор по снабжению",
+    company: "производственная компания",
+    avatar: "https://i.pravatar.cc/96?img=12",
+  },
+  {
+    quote: "Для нас было важно получить понятный расчёт без скрытых расходов. А2 подробно объяснили каждый этап и выдержали согласованные сроки.",
+    name: "Елена Крылова",
+    role: "руководитель отдела закупок",
+    company: "дистрибьютор оборудования",
+    avatar: "https://i.pravatar.cc/96?img=47",
+  },
+  {
+    quote: "Передали команде А2 отдельный участок — оформление экспорта в Узбекистан. Документы подготовили быстро, вопросов на стороне клиента не возникло.",
+    name: "Дмитрий Соколов",
+    role: "коммерческий директор",
+    company: "поставщик промышленной продукции",
+    avatar: "https://i.pravatar.cc/96?img=33",
+  },
+  {
+    quote: "Наконец-то появился подрядчик, который говорит на понятном языке и заранее предупреждает о рисках. С тех пор ведём через них все новые направления.",
+    name: "Мария Власова",
+    role: "основатель компании",
+    company: "торговая компания",
+    avatar: "https://i.pravatar.cc/96?img=32",
+  },
+  {
+    quote: "Помогли разобраться с разрешительными документами и полностью сопровождали сделку. Мы занимались бизнесом, а не перепиской с десятком участников.",
+    name: "Роман Белов",
+    role: "операционный директор",
+    company: "импортёр комплектующих",
+    avatar: "https://i.pravatar.cc/96?img=11",
+  },
+];
+---
+
+<Section id="testimonials" border="sides-bottom">
+  <Container>
+    <SectionHeader heading="h2" align="center">
+      <Fragment slot="title">
+        Нас рекомендуют за <strong class="text-accent font-semibold">спокойствие и результат</strong>
+      </Fragment>
+    </SectionHeader>  
+  </Container>
+
+  <div class="relative mx-auto mt-8 w-full max-w-360 overflow-hidden md:mt-12">
+    <div class="pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-surface-page to-transparent md:w-24 lg:w-40" aria-hidden="true"></div>
+    <div class="pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-surface-page to-transparent md:w-24 lg:w-40" aria-hidden="true"></div>
+
+    <div class="relative left-1/2 w-max -translate-x-1/2">
+      <div class="hidden items-stretch gap-6 md:flex">
+        {testimonials.map((testimonial) => <TestimonialCard testimonial={testimonial} />)}
+      </div>
+
+      <div class="flex flex-col gap-4 md:hidden">
+        <div class="flex gap-4">
+          {testimonials.filter((_, index) => index % 2 === 0).map((testimonial) => <TestimonialCard testimonial={testimonial} />)}
+        </div>
+
+        <div class="flex translate-x-32 gap-4">
+          {testimonials.filter((_, index) => index % 2 !== 0).map((testimonial) => <TestimonialCard testimonial={testimonial} />)}
+        </div>
+      </div>
+    </div>
+  </div>
+</Section>
