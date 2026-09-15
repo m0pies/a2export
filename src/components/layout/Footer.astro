@@ -38,7 +38,7 @@ const phones = [
         </a>
       </div>
 
-      <div class="grid gap-10 md:grid-cols-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_max-content] lg:gap-8">
+      <div class="grid grid-cols-2 gap-x-6 gap-y-8 md:grid-cols-2 md:gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_max-content] lg:gap-8">
         <nav aria-label="Экспорт">
           <h2 class="text-text-primary text-ui-sm">Экспорт</h2>
           <ul class="mt-4 grid gap-2.5">
@@ -63,30 +63,32 @@ const phones = [
           </ul>
         </nav>
 
-        <nav aria-label="Импорт">
-          <h2 class="text-text-primary text-ui-sm">Импорт</h2>
-          <ul class="mt-4 grid gap-2.5">
-            {importLinks.map((link) => (
-              <li class="grid gap-2.5">
-                <a href={link.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
-                  {link.label}
-                </a>
-                {link.children && (
-                  <ul class="grid gap-2.5">
-                    {link.children.map((nestedLink) => (
-                      <li>
-                        <a href={nestedLink.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
-                          {nestedLink.label}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </li>
-            ))}
-          </ul>
+        <div class="contents md:grid md:gap-8">
+          <nav aria-label="Импорт">
+            <h2 class="text-text-primary text-ui-sm">Импорт</h2>
+            <ul class="mt-4 grid gap-2.5">
+              {importLinks.map((link) => (
+                <li class="grid gap-2.5">
+                  <a href={link.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+                    {link.label}
+                  </a>
+                  {link.children && (
+                    <ul class="grid gap-2.5">
+                      {link.children.map((nestedLink) => (
+                        <li>
+                          <a href={nestedLink.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+                            {nestedLink.label}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-          <div class="mt-8">
+          <div>
             <h2 class="text-text-primary text-ui-sm">Услуги</h2>
             <ul class="mt-4 grid gap-2.5">
               {serviceLinks.map((link) => (
@@ -98,21 +100,23 @@ const phones = [
               ))}
             </ul>
           </div>
-        </nav>
+        </div>
 
-        <nav aria-label="Другое">
-        <h2 class="text-text-primary text-ui-sm">Другое</h2>
-          <ul class="mt-4 grid gap-2.5">
-            {otherLinks.map((link) => (
-              <li>
-                <a href={link?.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
-                  {link?.label}
-                </a>
-              </li>
-            ))}
-          </ul>
+        <div class="contents md:grid md:gap-8">
+          <nav aria-label="Другое">
+            <h2 class="text-text-primary text-ui-sm">Другое</h2>
+            <ul class="mt-4 grid gap-2.5">
+              {otherLinks.map((link) => (
+                <li>
+                  <a href={link?.href} class="text-text-secondary text-caption transition-colors hover:text-text-primary">
+                    {link?.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-          <div class="mt-8">
+          <div class="max-md:col-span-2">
             <h2 class="text-text-primary text-ui-sm">Реквизиты</h2>
             <dl class="text-text-secondary mt-4 grid gap-2.5 text-caption">
               <div class="flex gap-2">
@@ -129,32 +133,36 @@ const phones = [
               </div>
             </dl>
           </div>
-        </nav>
+        </div>
 
-        <div>
-          <h2 class="text-text-primary text-ui-sm">Почта</h2>
-          <ul class="mt-4 grid gap-2.5">
-            {emails.map((email) => (
-              <li class="flex items-baseline gap-x-1 whitespace-nowrap text-caption">
-                <a href={`mailto:${email.address}`} class="text-text-secondary transition-colors hover:text-text-primary">
-                  {email.address}
-                </a>
-                {email.description && <span class="text-text-muted">/ {email.description}</span>}
-              </li>
-            ))}
-          </ul>
+        <div class="contents md:grid md:gap-8">
+          <div class="max-md:col-span-2">
+            <h2 class="text-text-primary text-ui-sm">Почта</h2>
+            <ul class="mt-4 grid gap-2.5">
+              {emails.map((email) => (
+                <li class="flex items-baseline gap-x-1 whitespace-nowrap text-caption">
+                  <a href={`mailto:${email.address}`} class="text-text-secondary transition-colors hover:text-text-primary">
+                    {email.address}
+                  </a>
+                  {email.description && <span class="text-text-muted">/ {email.description}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
 
-          <h2 class="text-text-primary mt-8 text-ui-sm">Телефоны</h2>
-          <ul class="mt-4 grid gap-2.5">
-            {phones.map((phone) => (
-              <li class="flex items-baseline gap-x-1 whitespace-nowrap text-caption">
-                <a href={phone.href} class="text-text-secondary transition-colors hover:text-text-primary">
-                  {phone.number}
-                </a>
-                <span class="text-text-muted">/ {phone.description}</span>
-              </li>
-            ))}
-          </ul>
+          <div class="col-span-2 md:col-span-1">
+            <h2 class="text-text-primary text-ui-sm">Телефоны</h2>
+            <ul class="mt-4 grid gap-2.5">
+              {phones.map((phone) => (
+                <li class="flex items-baseline gap-x-1 whitespace-nowrap text-caption">
+                  <a href={phone.href} class="text-text-secondary transition-colors hover:text-text-primary">
+                    {phone.number}
+                  </a>
+                  <span class="text-text-muted">/ {phone.description}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </div>

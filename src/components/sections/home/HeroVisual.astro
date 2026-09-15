@@ -25,7 +25,7 @@ const endpoints = [
   {endpoints.map((endpoint) => (
     <div
       class:list={[
-        "absolute z-10 flex h-[40px] w-[40px] lg:h-[56px] lg:w-[56px] -translate-y-1/2 items-center justify-center rounded-md border-2 border-border bg-surface-card max-md:h-[80px] max-md:w-[80px]",
+        "absolute z-10 flex h-12 w-12 lg:h-14 lg:w-14 xl:w-16 xl:h-16 -translate-y-1/2 items-center justify-center rounded-md border-2 border-border bg-surface-card ",
         endpoint.side === "left" ? "left-[14%] max-md:left-4" : "right-[14%] max-md:right-4",
         endpoint.row === "top" ? "top-[15%]" : "",
         endpoint.row === "middle" ? "top-1/2" : "",
@@ -33,12 +33,12 @@ const endpoints = [
       ]}
       data-network-endpoint={endpoint.id}
     >
-      <endpoint.Icon size={20} stroke-width={2} class="h-7 w-7 text-text-primary" aria-hidden="true" />
+      <endpoint.Icon size={20} stroke-width={2} class="h-6 w-6 md:h-7 md:w-7 text-text-primary" aria-hidden="true" />
     </div>
   ))}
 
-  <div class="absolute left-1/2 top-1/2 z-10 flex h-[160px] w-[160px] xl:h-[200px] xl:w-[200px] -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border-2 border-border bg-surface-card text-accent" data-network-center>
-    <span class="text-stat xl:text-[72px] font-semibold">A2</span>
+  <div class="absolute left-1/2 top-1/2 z-10 flex h-32 w-32 lg:h-40 lg:w-40 xl:h-50 xl:w-50 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-xl border-2 border-border bg-surface-card text-accent" data-network-center>
+    <span class="text-[32px] xl:text-[72px] font-semibold">A2</span>
   </div>
 </div>
 

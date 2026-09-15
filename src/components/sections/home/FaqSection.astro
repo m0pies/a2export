@@ -30,7 +30,7 @@ const questions = [
 
 <Section id="faq" border="sides-top" py="py-0">
   <Container px="px-0">
-    <div class="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-20">
+    <div class="grid gap-4 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)] lg:items-start lg:gap-20">
       <div class="flex max-w-120 text-balance flex-col items-start px-4 md:pl-8 xl:pl-12 2xl:pl-16 py-8 md:py-16 2xl:py-24">
         <SectionHeader
           title="FAQ"
@@ -42,7 +42,7 @@ const questions = [
         </Button>
       </div>
 
-      <div class="border-l border-border py-8 md:py-16 2xl:py-24" data-faq>
+      <div class="border-l border-border md:py-16 2xl:py-24" data-faq>
         {questions.map((item, index) => (
           <details class="group border-b border-border first:border-t p-6" open={index === 0}>
             <summary class="flex cursor-pointer list-none items-center justify-between gap-6 text-ui-lg text-text-primary">

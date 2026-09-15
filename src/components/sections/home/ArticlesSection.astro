@@ -2,6 +2,7 @@
 import Section from "../../ui/Section.astro";
 import Container from "../../ui/Container.astro";
 import SectionHeader from "../../ui/SectionHeader.astro";
+import Button from "../../ui/Button.astro";
 
 const articles = [
   {
@@ -39,28 +40,131 @@ const articles = [
       </Fragment>  
     </SectionHeader>
 
-    <div class="mt-8 grid gap-4 md:mt-12 md:grid-cols-3 md:gap-6">
-      {articles.map((article) => (
-        <article class="relative flex h-fit flex-col rounded-xl border border-border bg-surface-card">
+    <div
+      class="-mx-4 mt-8 w-[calc(100%+2rem)] snap-x snap-mandatory overflow-x-auto overscroll-x-contain md:mx-0 md:mt-12 md:w-full md:overflow-visible md:snap-none"
+      data-articles-track
+      tabindex="0"
+      aria-label="Статьи"
+    >
+      <div class="flex w-max gap-4 pr-4 md:grid md:w-full md:grid-cols-3 md:gap-6 md:pr-0" data-articles-items>
+        {articles.map((article) => (
+          <article class="relative flex h-fit w-[80vw] max-w-100 snap-start flex-col rounded-xl border border-border bg-surface-card md:w-auto md:max-w-none">
 
-          <img
-            src={article.image}
-            alt={`Иллюстрация: ${article.title}`}
-            class="h-auto w-full rounded-t-xl"
-            loading="lazy"
-          />
+            <img
+              src={article.image}
+              alt={`Иллюстрация: ${article.title}`}
+              class="h-auto w-full rounded-t-xl"
+              loading="lazy"
+            />
 
-          <div class="p-6 flex flex-col text-balance">
-            <div class="mb-3 flex items-center gap-1.5 text-caption text-text-secondary">
-              <span>{article.topic}</span>
-              ·
-              <time datetime={article.dateTime}>{article.date}</time>
+            <div class="flex flex-col p-6 text-balance">
+              <div class="mb-3 flex items-center gap-1.5 text-caption text-text-secondary">
+                <span>{article.topic}</span>
+                ·
+                <time datetime={article.dateTime}>{article.date}</time>
+              </div>
+              <h3 class="max-w-120 text-ui-lg">{article.title}</h3>
+              {/* <p class="mt-2 max-w-120 text-body">{article.description}</p> */}
             </div>
-            <h3 class="max-w-120 text-ui-lg">{article.title}</h3>
-            {/* <p class="mt-2 max-w-120 text-body">{article.description}</p> */}
-          </div>
-        </article>
-      ))}
+          </article>
+        ))}
+      </div>
+    </div>
+
+    <div class="mt-5 flex justify-end gap-2 md:hidden">
+      <Button
+        variant="secondary"
+        size="sm"
+        iconOnly
+        ariaLabel="Предыдущие статьи"
+        data-articles-prev
+        disabled
+        class="rounded-full disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        <Fragment slot="icon">
+          <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="m9.5 3.5-4 4 4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </Fragment>
+      </Button>
+      <Button
+        variant="secondary"
+        size="sm"
+        iconOnly
+        ariaLabel="Следующие статьи"
+        data-articles-next
+        class="rounded-full disabled:cursor-not-allowed disabled:opacity-40"
+      >
+        <Fragment slot="icon">
+          <svg class="h-4 w-4" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="m6.5 3.5 4 4-4 4" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </Fragment>
+      </Button>
     </div>
   </Container>
 </Section>
+
+<script>
+  const slider = document.querySelector<HTMLElement>("[data-articles-track]")?.parentElement;
+
+  if (slider) {
+    const track = slider.querySelector<HTMLElement>("[data-articles-track]");
+    const previousButton = slider.querySelector<HTMLButtonElement>("[data-articles-prev]");
+    const nextButton = slider.querySelector<HTMLButtonElement>("[data-articles-next]");
+
+    if (track && previousButton && nextButton) {
+      const updateButtons = () => {
+        const maxScrollLeft = track.scrollWidth - track.clientWidth;
+        previousButton.disabled = track.scrollLeft <= 1;
+        nextButton.disabled = track.scrollLeft >= maxScrollLeft - 1;
+      };
+
+      const getScrollDistance = () => {
+        const card = track.querySelector<HTMLElement>("article");
+        if (!card) return track.clientWidth;
+
+        const gap = Number.parseFloat(getComputedStyle(track.querySelector<HTMLElement>("[data-articles-items]") ?? track).columnGap) || 0;
+        return card.offsetWidth + gap;
+      };
+
+      previousButton.addEventListener("click", () => {
+        track.scrollBy({ left: -getScrollDistance(), behavior: "smooth" });
+      });
+
+      nextButton.addEventListener("click", () => {
+        track.scrollBy({ left: getScrollDistance(), behavior: "smooth" });
+      });
+
+      track.addEventListener("scroll", updateButtons, { passive: true });
+      window.addEventListener("resize", updateButtons);
+      updateButtons();
+    }
+  }
+</script>
+
+<style>
+  [data-articles-track] {
+    scroll-padding-left: max(1rem, calc((100vw - 90rem) / 2 + 1rem));
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  [data-articles-track]::-webkit-scrollbar {
+    display: none;
+  }
+
+  [data-articles-items] {
+    padding-left: max(1rem, calc((100vw - 90rem) / 2 + 1rem));
+  }
+
+  @media (min-width: 48rem) {
+    [data-articles-track] {
+      scroll-padding-left: 0;
+    }
+
+    [data-articles-items] {
+      padding-left: 0;
+    }
+  }
+</style>
