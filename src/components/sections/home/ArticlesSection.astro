@@ -14,19 +14,11 @@ const articles = [
     description: "С 1 июля 2024 года в России начались эксперименты по маркировке коктейлей...",
   },
   {
-    title: "Уточнен Порядок заполнения декларации на товары",
-    date: "2 июля 2024",
-    dateTime: "2024-07-02",
-    topic: "Экспорт",
-    image: "/images/article/coverArticle2.webp",
-    description: "Коллегия Евразийской экономической комиссии внесла изменения в приложения...",
-  },
-  {
     title: "М. Мишустин провел в Москве встречу с премьером Киргизии",
     date: "16 февраля 2024",
     dateTime: "2024-02-16",
     topic: "Таможня",
-    image: "/images/article/coverArticle3.webp",
+    image: "/images/article/coverArticle2.webp",
     description: "Главы правительств обсудили актуальные вопросы российско...",
   },
 ];
@@ -46,7 +38,7 @@ const articles = [
       tabindex="0"
       aria-label="Статьи"
     >
-      <div class="flex w-max gap-4 pr-4 md:grid md:w-full md:grid-cols-3 md:gap-6 md:pr-0" data-articles-items>
+      <div class="flex w-max gap-4 pr-4 md:grid md:w-full md:grid-cols-2 md:gap-6 md:pr-0" data-articles-items>
         {articles.map((article) => (
           <article class="relative flex h-fit w-[80vw] max-w-100 snap-start flex-col rounded-xl border border-border bg-surface-card md:w-auto md:max-w-none">
 

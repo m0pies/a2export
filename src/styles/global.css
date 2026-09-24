@@ -95,23 +95,31 @@
 }
 
 .dot-grid {
-  background-image: radial-gradient(circle, var(--color-border) 0.8px, transparent 0.8px);
-  background-size: 18px 18px;
-  opacity: 0.65;
+  background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
+  background-size: 20px 20px;
+  opacity: 0.75;
   -webkit-mask-image: linear-gradient(
     to bottom,
-    rgb(0 0 0 / 0.15) 0%,
-    rgb(0 0 0 / 0.45) 35%,
-    #000 78%,
+    rgb(0 0 0 / 0.35) 0%,
+    rgb(0 0 0 / 0.75) 35%,
+    #000 70%,
     #000 100%
   );
   mask-image: linear-gradient(
     to bottom,
-    rgb(0 0 0 / 0.15) 0%,
-    rgb(0 0 0 / 0.45) 35%,
-    #000 78%,
+    rgb(0 0 0 / 0.35) 0%,
+    rgb(0 0 0 / 0.75) 35%,
+    #000 70%,
     #000 100%
   );
+}
+
+.card-grid {
+  background-image:
+    linear-gradient(to right, var(--color-border) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--color-border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.35;
 }
 
 .hero-dot-grid {
